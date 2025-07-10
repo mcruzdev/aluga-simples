@@ -53,6 +53,69 @@ export class Car {
       status: CarStatus.DISPONIVEL,
       year: 2025,
       engine: '2.0'
+    },
+    {
+      carTitle: 'Chevrolet Onix Plus 1.0 Turbo',
+      brand: 'Chevrolet',
+      id: 6,
+      model: 'Onix Plus',
+      status: CarStatus.DISPONIVEL,
+      year: 2024,
+      engine: '1.0 Turbo'
+    },
+    {
+      carTitle: 'Honda HR-V 1.5',
+      brand: 'Honda',
+      id: 7,
+      model: 'HR-V',
+      status: CarStatus.DISPONIVEL,
+      year: 2023,
+      engine: '1.5'
+    },
+    {
+      carTitle: 'Jeep Compass 2.0 Diesel',
+      brand: 'Jeep',
+      id: 8,
+      model: 'Compass',
+      status: CarStatus.DISPONIVEL,
+      year: 2022,
+      engine: '2.0 Diesel'
+    },
+    {
+      carTitle: 'Nissan Kicks 1.6',
+      brand: 'Nissan',
+      id: 9,
+      model: 'Kicks',
+      status: CarStatus.DISPONIVEL,
+      year: 2021,
+      engine: '1.6'
+    },
+    {
+      carTitle: 'Ford Ranger 3.2 Diesel',
+      brand: 'Ford',
+      id: 10,
+      model: 'Ranger',
+      status: CarStatus.DISPONIVEL,
+      year: 2024,
+      engine: '3.2 Diesel'
+    },
+    {
+      carTitle: 'BMW X1 2.0',
+      brand: 'BMW',
+      id: 11,
+      model: 'X1',
+      status: CarStatus.DISPONIVEL,
+      year: 2023,
+      engine: '2.0'
+    },
+    {
+      carTitle: 'Mercedes-Benz Classe C 1.5 Turbo',
+      brand: 'Mercedes-Benz',
+      id: 12,
+      model: 'Classe C',
+      status: CarStatus.DISPONIVEL,
+      year: 2022,
+      engine: '1.5 Turbo'
     }
   ]
 
