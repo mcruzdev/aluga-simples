@@ -1,0 +1,36 @@
+
+<main class="flex flex-col p-20 gap-4">
+  <h2 class="text-3xl font-medium">Escolha o carro que melhor te atende</h2>
+
+  <div class="grid grid-cols-5 gap-4">
+
+    @for (car of cars; track $index) {
+    <p-card [header]="car.carTitle">
+      <img src="rent-a-car.svg" />
+
+      <ng-template #footer>
+        <div class="flex flex-row gap-2">
+          <p-button (onClick)="rentCar(car)" severity="success" class="flex-1/2" fluid="true" label="Alugar" />
+          <p-button (onClick)="seeDetails(car)" severity="help" class="flex-1/2" fluid="true" label="Ver detalhes" />
+        </div>
+      </ng-template>
+    </p-card>
+    }
+  </div>
+
+  <!-- dialog for car details -->
+  <p-dialog [(visible)]="displayDialog" [modal]="true" [closable]="true" [dismissableMask]="true" styleClass="w-1/2">
+    <ng-template pTemplate="header">
+      <h2 class="text-2xl font-bold">{{ selectedCar().carTitle }}</h2>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div class="flex flex-col gap-4">
+        <p><span class="font-bold">Marca:</span> {{ selectedCar().brand }}</p>
+        <p><span class="font-bold">Modelo:</span> {{ selectedCar().model }}</p>
+        <p><span class="font-bold">Motor:</span> {{ selectedCar().engine }}</p>
+        <p><span class="font-bold">Ano:</span> {{ selectedCar().year }}</p>
+        <p><span class="font-bold">Status:</span> {{ selectedCar().status === 'AVAILABLE' ? 'Disponível' : 'Indisponível' }}</p>
+      </div>
+    </ng-template>
+  </p-dialog>
+</main>
