@@ -4,12 +4,6 @@ export interface CarModel {
   brand: string
   carTitle: string
   year: number
-  status: CarStatus,
+  status: 'AVAILABLE' | 'RENTED' | 'IN_MAINTENANCE',
   engine: string
-}
-
-export enum CarStatus {
-  DISPONIVEL,
-  ALUGADO,
-  EM_MANUTENCAO
 }

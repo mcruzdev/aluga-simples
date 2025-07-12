@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { CarModel, CarStatus } from '../model/car';
+import { CarModel } from '../model/car';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class Car {
       brand: 'Fiat',
       id: 1,
       model: 'Mobi',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2022,
       engine: '1.0'
     },
@@ -23,7 +23,7 @@ export class Car {
       brand: 'Hyundai',
       id: 2,
       model: 'HB20S',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2022,
       engine: '1.0'
     },
@@ -32,7 +32,7 @@ export class Car {
       brand: 'Volkswagen',
       id: 3,
       model: 'Polo',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2021,
       engine: '1.0'
     },
@@ -41,7 +41,7 @@ export class Car {
       brand: 'Renault',
       id: 4,
       model: 'Kwid',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2023,
       engine: '1.0'
     },
@@ -50,7 +50,7 @@ export class Car {
       brand: 'Toyota',
       id: 5,
       model: 'Corolla Cross',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2025,
       engine: '2.0'
     },
@@ -59,7 +59,7 @@ export class Car {
       brand: 'Chevrolet',
       id: 6,
       model: 'Onix Plus',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2024,
       engine: '1.0 Turbo'
     },
@@ -68,7 +68,7 @@ export class Car {
       brand: 'Honda',
       id: 7,
       model: 'HR-V',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2023,
       engine: '1.5'
     },
@@ -77,7 +77,7 @@ export class Car {
       brand: 'Jeep',
       id: 8,
       model: 'Compass',
-      status: CarStatus.DISPONIVEL,
+      status: 'IN_MAINTENANCE',
       year: 2022,
       engine: '2.0 Diesel'
     },
@@ -86,7 +86,7 @@ export class Car {
       brand: 'Nissan',
       id: 9,
       model: 'Kicks',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2021,
       engine: '1.6'
     },
@@ -95,7 +95,7 @@ export class Car {
       brand: 'Ford',
       id: 10,
       model: 'Ranger',
-      status: CarStatus.DISPONIVEL,
+      status: 'IN_MAINTENANCE',
       year: 2024,
       engine: '3.2 Diesel'
     },
@@ -104,7 +104,7 @@ export class Car {
       brand: 'BMW',
       id: 11,
       model: 'X1',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2023,
       engine: '2.0'
     },
@@ -113,7 +113,7 @@ export class Car {
       brand: 'Mercedes-Benz',
       id: 12,
       model: 'Classe C',
-      status: CarStatus.DISPONIVEL,
+      status: 'AVAILABLE',
       year: 2022,
       engine: '1.5 Turbo'
     }
@@ -121,6 +121,11 @@ export class Car {
 
   getCars(): Observable<CarModel[]> {
     return of(this.data)
+  }
+
+  getCarById(id: number): Observable<CarModel | undefined> {
+    const car = this.data.find(car => car.id === id);
+    return of(car);
   }
 
 }
