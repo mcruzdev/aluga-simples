@@ -128,4 +128,8 @@ export class Car {
     return of(car);
   }
 
+  rentCar(id: number) {
+    return of();
+  }
+
 }
