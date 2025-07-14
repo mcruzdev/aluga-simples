@@ -1,0 +1,53 @@
+<main class="flex flex-col p-20 gap-4">
+  <h2 class="text-3xl font-medium">{{ car().carTitle }}</h2>
+
+  <a pButton icon="pi pi-arrow-left" class="w-1/12" routerLink="/" outlined="true" rounded="true">
+  </a>
+  <div class="flex gap-4">
+
+    <p-card [header]="car().carTitle" styleClass="w-1/4">
+      <p-divider />
+      <ng-template #content>
+        <div class="flex flex-col gap-2">
+          <p class="flex"><span class="font-extrabold w-2/3">Marca:</span> <span class="w-1/3 font-medium">{{
+              car().brand }}</span></p>
+          <p class="flex"><span class="font-extrabold w-2/3">Modelo:</span> <span class="w-1/3 font-medium">{{
+              car().model }}</span></p>
+          <p class="flex"><span class="font-extrabold w-2/3">Motor:</span> <span class="w-1/3 font-medium">{{
+              car().engine }}</span></p>
+          <p class="flex"><span class="font-extrabold w-2/3">Ano:</span> <span class="w-1/3 font-medium">{{ car().year
+              }}</span></p>
+          <p class="flex"><span class="font-extrabold w-2/3">Status:</span> <span class="w-1/3 font-medium">{{
+              car().status ===
+              'AVAILABLE' ? 'Disponível' :
+              'Indisponível' }}</span></p>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card header="Reserva" class="w-3/4">
+
+      <p-divider />
+
+      <ng-template #content>
+        <div class="flex gap-4 pb-12">
+          <p-floatlabel variant="in" class="w-1/2">
+            <p-datepicker inputId="start" fluid="true" [(ngModel)]="start" [showTime]="false" hourFormat="24"
+              stepHour="1" [minDate]="minStart()" />
+            <label for="start">Data de início</label>
+          </p-floatlabel>
+
+          <p-floatlabel variant="in" class="w-1/2">
+            <p-datepicker fluid="true" inputId="end" [(ngModel)]="end" [showTime]="false" hourFormat="24" stepHour="1"
+              [minDate]="minEnd()" />
+            <label for="end">Data de término</label>
+          </p-floatlabel>
+        </div>
+      </ng-template>
+
+      <ng-template #footer>
+        <p-button (onClick)="reserveCar()" severity="success" icon="pi pi-check" fluid="true" label="Alugar" />
+      </ng-template>
+    </p-card>
+  </div>
+</main>
