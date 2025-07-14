@@ -18,7 +18,8 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura
       }
-    }), provideFirebaseApp(() => initializeApp(
+    }),
+    provideFirebaseApp(() => initializeApp(
       environment.firebaseConfig
     )), provideAnalytics(() => getAnalytics()), ScreenTrackingService
   ]
