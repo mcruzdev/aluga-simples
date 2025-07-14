@@ -1,0 +1,35 @@
+<main class="flex flex-col p-20 gap-4">
+  <h2 class="text-3xl font-medium">Painel administrativo</h2>
+  <p-divider />
+  <p-table showGridlines [value]="cars()">
+    <ng-template #header>
+      <tr>
+        <th>ID</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Motor</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-car>
+      <tr>
+        <td>{{ car.id }}</td>
+        <td>{{ car.brand }}</td>
+        <td>{{ car.model }}</td>
+        <td>{{ car.engine }}</td>
+        <td><p-tag [value]="car.statusLabel" [severity]="car.statusColor" ></p-tag></td>
+        <td class="flex gap-2">
+          <p-button (onClick)="removeCar(car.id)" icon="pi pi-trash" rounded="true" outlined="true" severity="danger" pTooltip="Deletar"></p-button>
+          <p-button (onClick)="receiveCar(car.id)" icon="pi pi-car" rounded="true" outlined="true" severity="info"
+            pTooltip="Receber o carro"></p-button>
+          <p-button (onClick)="sendToMaintenance(car.id)" icon="pi pi-wrench" rounded="true" outlined="true" severity="warn"
+            pTooltip="Enviar para manutenção"></p-button>
+
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</main>

@@ -2,5 +2,8 @@
   <ng-template #start>
     <a class="text-xl font-black" routerLink="/">AlugaSimples</a>
   </ng-template>
+  <ng-template #end>
+    <a icon="pi pi-lock" [rounded]="true" [outlined]="true" pButton routerLink="/admin"></a>
+  </ng-template>
 </p-toolbar>
 <router-outlet></router-outlet>

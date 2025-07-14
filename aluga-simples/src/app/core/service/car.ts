@@ -59,7 +59,7 @@ export class Car {
       brand: 'Chevrolet',
       id: 6,
       model: 'Onix Plus',
-      status: 'AVAILABLE',
+      status: 'RENTED',
       year: 2024,
       engine: '1.0 Turbo'
     },
@@ -86,7 +86,7 @@ export class Car {
       brand: 'Nissan',
       id: 9,
       model: 'Kicks',
-      status: 'AVAILABLE',
+      status: 'RENTED',
       year: 2021,
       engine: '1.6'
     },
@@ -104,7 +104,7 @@ export class Car {
       brand: 'BMW',
       id: 11,
       model: 'X1',
-      status: 'AVAILABLE',
+      status: 'RENTED',
       year: 2023,
       engine: '2.0'
     },
@@ -113,7 +113,7 @@ export class Car {
       brand: 'Mercedes-Benz',
       id: 12,
       model: 'Classe C',
-      status: 'AVAILABLE',
+      status: 'IN_MAINTENANCE',
       year: 2022,
       engine: '1.5 Turbo'
     }

@@ -1,10 +1,15 @@
-
 <main class="flex flex-col p-20 gap-4">
-  <h2 class="text-3xl font-medium">Escolha o carro que melhor te atende</h2>
+
+  <div class="flex flex-col gap-1">
+    <h2 class="text-3xl font-medium">Escolha o carro que melhor te atende</h2>
+    <span class="font-extralight">Temos {{ totalCars() }} carros disponíveis.</span>
+  </div>
+
+  <p-divider />
 
   <div class="grid grid-cols-5 gap-4">
 
-    @for (car of cars; track $index) {
+    @for (car of carsSignal(); track $index) {
     <p-card [header]="car.carTitle">
       <img src="rent-a-car.svg" />
 
@@ -29,7 +34,8 @@
         <p><span class="font-bold">Modelo:</span> {{ selectedCar().model }}</p>
         <p><span class="font-bold">Motor:</span> {{ selectedCar().engine }}</p>
         <p><span class="font-bold">Ano:</span> {{ selectedCar().year }}</p>
-        <p><span class="font-bold">Status:</span> {{ selectedCar().status === 'AVAILABLE' ? 'Disponível' : 'Indisponível' }}</p>
+        <p><span class="font-bold">Status:</span> {{ selectedCar().status === 'AVAILABLE' ? 'Disponível' :
+          'Indisponível' }}</p>
       </div>
     </ng-template>
   </p-dialog>

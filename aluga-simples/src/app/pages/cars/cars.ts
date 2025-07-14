@@ -1,22 +1,34 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { map } from 'rxjs';
 
 import { CarModel } from '../../core/model/car';
 import { Car } from '../../core/service/car';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Divider } from "primeng/divider";
 
 @Component({
   selector: 'app-cars',
-  imports: [CardModule, DialogModule, ButtonModule],
+  imports: [CardModule, DialogModule, ButtonModule, Divider],
   templateUrl: './cars.html',
   styleUrl: './cars.css'
 })
-export class Cars implements OnInit {
-  cars: CarModel[] = []
+export class Cars {
+
   carService = inject(Car)
   router = inject(Router);
+
+  carsSignal = toSignal(this.carService.getCars().pipe(map(cars => cars.filter(car => car.status === 'AVAILABLE'))), {
+    initialValue: []
+  })
+
+  totalCars = computed(() => {
+    return this.carsSignal().length;
+  })
+
   displayDialog = signal(false);
 
   selectedCar = signal<CarModel>({
@@ -28,12 +40,6 @@ export class Cars implements OnInit {
     year: 0,
     engine: ''
   });
-
-  ngOnInit(): void {
-    this.carService.getCars().subscribe(cars => {
-      this.cars = cars;
-    })
-  }
 
   seeDetails(car: CarModel): void {
     this.carService.getCarById(car.id).subscribe(carDetails => {
