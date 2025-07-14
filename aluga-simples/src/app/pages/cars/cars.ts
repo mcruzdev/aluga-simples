@@ -45,6 +45,7 @@ export class Cars implements OnInit {
   }
 
   rentCar(car: CarModel): void {
+    console.log('Renting car:', car);
     this.router.navigate(['/rent', car.id]);
   }
 }

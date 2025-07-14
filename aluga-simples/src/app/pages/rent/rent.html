@@ -1,8 +1,15 @@
-<main class="flex flex-col p-20 gap-4">
+<p-block-ui [target]="rentCard" [blocked]="redirecting()"></p-block-ui>
+
+<main class="flex flex-col p-20 gap-4" #rentPage>
   <h2 class="text-3xl font-medium">{{ car().carTitle }}</h2>
 
-  <a pButton icon="pi pi-arrow-left" class="w-1/12" routerLink="/" outlined="true" rounded="true">
-  </a>
+  <div class="flex gap-4 items-center">
+    <a pButton icon="pi pi-arrow-left" class="w-1/12" routerLink="/" outlined="true" rounded="true"></a>
+  </div>
+
+
+  <p-divider />
+
   <div class="flex gap-4">
 
     <p-card [header]="car().carTitle" styleClass="w-1/4">
@@ -25,7 +32,7 @@
       </ng-template>
     </p-card>
 
-    <p-card header="Reserva" class="w-3/4">
+    <p-card header="Reserva" class="w-3/4" #rentCard>
 
       <p-divider />
 
@@ -50,4 +57,5 @@
       </ng-template>
     </p-card>
   </div>
+  <p-toast></p-toast>
 </main>

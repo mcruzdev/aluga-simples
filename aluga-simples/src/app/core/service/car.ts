@@ -129,7 +129,9 @@ export class Car {
   }
 
   rentCar(id: number) {
-    return of();
+    return of({
+      success: true
+    });
   }
 
 }
