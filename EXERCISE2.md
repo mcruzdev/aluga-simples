@@ -32,7 +32,7 @@ public enum BookingStatus {
     FINISHED
 }
 
-> ![NOTE]
+> [!NOTE]
 > Você pode aceitar qualquer valor no campo `vehicleId`.
 
 ---
