@@ -1,5 +1,9 @@
 # Próxima aula
 
+## Caso de uso
+
+Preciso agora de mais duas entidades na minha aplicação, eu quero agora controlar as **manutenções** e os **acessórios**.
+
 * Falar sobre `@GeneratedValue`
 * Falar sobre o `import.sql`
 * Falar sobre RestAssured body Matchers
@@ -13,6 +17,107 @@
   * Vamos registrar agora as manutenções do carro (um carro tem muitas manutenções e uma manutenção tem apenas um carro)
   * Vamos registrar agora os acessórios do carro (um carro tem muitos acessórios e um acessório pode estar em muitos carros)
   * Explicar o relacionamento uniderecional e o bidirecional (**REVER**)
+
+## Um para muitos (um veículo pode ter 0 ou n manutenções / uma manutenção é realizada em um e apenas um carro)
+
+## Muitos para muitos (um veículo pode ter 0 ou n acessórios / um acessório pode estar em 0 ou n carros)
+
+## vehicle
+
+| id | model   | engine | status       | vehicle_year |
+|----|---------|--------|--------------|---------------|
+| 1  | Onix    | 1.0    | RENTED       | 2023          |
+| 2  | Corolla | 2.0    | AVAILABLE    | 2022          |
+| 3  | HB20    | 1.6    | MAINTENANCE  | 2021          |
+
+---
+
+## accessory
+
+| id | name            |
+|----|-----------------|
+| 1  | GPS             |
+| 2  | Airbag Extra    |
+| 3  | Sound System    |
+| 4  | Reverse Camera  |
+| 5  | Roof Rack       |
+
+---
+
+## 🔗 vehicle_accessory (Tabela de Junção)
+
+| vehicle_id | accessory_id |
+|------------|---------------|
+| 1          | 1             |
+| 1          | 3             |
+| 2          | 1             |
+| 2          | 2             |
+| 2          | 4             |
+| 3          | 3             |
+| 3          | 5             |
+
+```mermaid
+erDiagram
+    VEHICLE ||--o{ MAINTENANCE : has
+    VEHICLE ||--o{ VEHICLE_ACCESSORY : owns
+    ACCESSORY ||--o{ VEHICLE_ACCESSORY : included_in
+
+    VEHICLE {
+        Long id PK
+        String model
+        String engine
+        String status
+        int vehicle_year
+    }
+
+    MAINTENANCE {
+        Long id PK
+        String problem
+        Date maintenanceDate
+        Long vehicle_id FK
+    }
+
+    ACCESSORY {
+        Long id PK
+        String name
+    }
+
+    VEHICLE_ACCESSORY {
+        Long vehicle_id FK
+        Long accessory_id FK
+    }
+
+```
+
+## Consultas SQL para Muitos-para-Muitos (Veículo <-> Acessório)
+
+### 1. Buscar todos os acessórios de um veículo
+
+```sql
+SELECT a.*
+FROM accessory a
+JOIN vehicle_accessory va ON a.id = va.accessory_id
+WHERE va.vehicle_id = :vehicleId;
+```
+
+### 2. Buscar todos os veículos que possuem um acessório específico
+
+```sql
+SELECT v.*
+FROM vehicle v
+JOIN vehicle_accessory va ON v.id = va.vehicle_id
+WHERE va.accessory_id = :accessoryId;
+```
+
+### 3. Buscar veículos com seus respectivos acessórios
+
+```sql
+SELECT v.id AS vehicle_id, v.model, a.name AS accessory_name
+FROM vehicle v
+JOIN vehicle_accessory va ON v.id = va.vehicle_id
+JOIN accessory a ON a.id = va.accessory_id
+ORDER BY v.id;
+```
 
 ## Relacionamento unidirecional e bidirecional
 
@@ -51,17 +156,17 @@ Relacionamentos bidirecionais em JPA permitem a navegação entre entidades nos 
 
 ## Dica
 
-Se optar por usar um relacionamento bidirecional, **sempre defina o lado "dono" com `@ManyToOne` e o lado inverso com `mappedBy` no `@OneToMany`**. Mantenha os métodos auxiliares sincronizados (ex: `addMaintenance(Maintenance m)` e `m.setVehicle(this)`).
+Se optar por usar um relacionamento bidirecional, **sempre defina o lado "dono" com `@ManyToOne` e o lado inverso com `mappedBy` no `@OneToMany`**. Mantenha os métodos auxiliares sincronizados (ex: `addMaintenance(Maintenance m)` e `m.setvehicle(this)`).
 
 ```java
 @Entity
-public class Vehicle {
+public class vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Maintenance> maintenances = new ArrayList<>();
 
     public void addMaintenance(Maintenance m) {
         maintenances.add(m);
-        m.setVehicle(this);
+        m.setvehicle(this);
     }
 }
 
@@ -69,7 +174,7 @@ public class Vehicle {
 public class Maintenance {
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    private vehicle vehicle;
 }
 ```
 
