@@ -6,4 +6,5 @@ export interface CarModel {
   year: number
   status: 'AVAILABLE' | 'RENTED' | 'IN_MAINTENANCE',
   engine: string
+  accessories: string[]
 }

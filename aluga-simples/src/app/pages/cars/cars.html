@@ -36,6 +36,7 @@
         <p><span class="font-bold">Ano:</span> {{ selectedCar().year }}</p>
         <p><span class="font-bold">Status:</span> {{ selectedCar().status === 'AVAILABLE' ? 'Disponível' :
           'Indisponível' }}</p>
+        <p><span class="font-bold">Accessórios:</span> {{ selectedCar().accessories.join(', ') }} </p>
       </div>
     </ng-template>
   </p-dialog>

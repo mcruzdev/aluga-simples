@@ -38,7 +38,8 @@ export class Cars {
     model: '',
     status: 'AVAILABLE',
     year: 0,
-    engine: ''
+    engine: '',
+    accessories: []
   });
 
   seeDetails(car: CarModel): void {
