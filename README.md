@@ -2,7 +2,7 @@
 
 ---
 
-### Visão Geral
+## Visão Geral
 
 Este documento descreve as regras de negócio para um sistema de aluguel de carros simplificado, composto por dois microserviços principais: **vehicles** e **book**. O objetivo é gerenciar a frota de veículos e suas respectivas reservas, garantindo a coordenação entre os dois domínios.
 
@@ -34,11 +34,11 @@ Exemplo de um veículo pós criação:
 #### 1.2. Status do Veículo
 
 * O status de um veículo pode ser:
-    * `AVAILABLE`: O veículo está pronto para ser alugado.
+  * `AVAILABLE`: O veículo está pronto para ser alugado.
     * `RENTED`: O veículo está atualmente em uma reserva.
     * `UNDER_MAINTENANCE`: O veículo está fora de serviço para reparos ou manutenção.
 * **Regra de Transição de Status:**
-    * Um veículo só pode ser alterado para `RENTED` se seu status atual for `AVAILABLE`.
+  * Um veículo só pode ser alterado para `RENTED` se seu status atual for `AVAILABLE`.
     * Um veículo só pode ser alterado para `AVAILABLE` se seu status atual for `RENTED` ou `UNDER_MAINTENANCE`.
     * Um veículo pode ser alterado para `UNDER_MAINTENANCE` a partir de qualquer status.
 
