@@ -36,7 +36,8 @@ export class Rent implements OnInit {
     model: '',
     status: 'AVAILABLE',
     engine: '',
-    year: 0
+    year: 0,
+    accessories: []
   });
   start = signal<Date | null>(null);
   end = signal<Date | null>(null);

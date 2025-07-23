@@ -71,40 +71,40 @@ class VehicleTest {
     @Test
     void shouldChangeStatusFromAvailableToRented() {
         Vehicle vehicle = new Vehicle("Mobi", 2025, "1.0", "Fiat");
-        vehicle.setStatus(VehicleStatus.RENTED);
+        vehicle.changeStatus(VehicleStatus.RENTED);
         assertEquals(VehicleStatus.RENTED, vehicle.getStatus());
     }
 
     @Test
     void shouldChangeStatusFromRentedToUnderMaintenance() {
         Vehicle vehicle = new Vehicle("Mobi", 2025, "1.0", "Fiat");
-        vehicle.setStatus(VehicleStatus.RENTED);
-        vehicle.setStatus(VehicleStatus.UNDER_MAINTENANCE);
+        vehicle.changeStatus(VehicleStatus.RENTED);
+        vehicle.changeStatus(VehicleStatus.UNDER_MAINTENANCE);
         assertEquals(VehicleStatus.UNDER_MAINTENANCE, vehicle.getStatus());
     }
 
     @Test
     void shouldChangeStatusFromUnderMaintenanceToAvailable() {
         Vehicle vehicle = new Vehicle("Mobi", 2025, "1.0", "Fiat");
-        vehicle.setStatus(VehicleStatus.UNDER_MAINTENANCE);
-        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        vehicle.changeStatus(VehicleStatus.UNDER_MAINTENANCE);
+        vehicle.changeStatus(VehicleStatus.AVAILABLE);
         assertEquals(VehicleStatus.AVAILABLE, vehicle.getStatus());
     }
 
     @Test
     void shouldIgnoreSameStatusTransition() {
         Vehicle vehicle = new Vehicle("Mobi", 2025, "1.0", "Fiat");
-        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        vehicle.changeStatus(VehicleStatus.AVAILABLE);
         assertEquals(VehicleStatus.AVAILABLE, vehicle.getStatus());
     }
 
     @Test
     void shouldThrowExceptionForInvalidTransition() {
         Vehicle vehicle = new Vehicle("Mobi", 2025, "1.0", "Fiat");
-        vehicle.setStatus(VehicleStatus.UNDER_MAINTENANCE);
+        vehicle.changeStatus(VehicleStatus.UNDER_MAINTENANCE);
 
         Exception exception = assertThrows(IllegalStateException.class, () ->
-                vehicle.setStatus(VehicleStatus.RENTED)
+                vehicle.changeStatus(VehicleStatus.RENTED)
         );
         assertTrue(exception.getMessage().contains("Status transition from"));
     }

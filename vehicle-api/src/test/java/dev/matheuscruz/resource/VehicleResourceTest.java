@@ -3,6 +3,8 @@ package dev.matheuscruz.resource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -219,6 +221,46 @@ class VehicleResourceTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("findAll { it.carTitle.contains('Yaris') }.size()", Matchers.greaterThanOrEqualTo(3));
+    }
+
+
+    @Test
+    void shouldAddMaintenanceToVehicle() {
+        int vehicleId = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                          "brand": "Volkswagen",
+                          "model": "Gol",
+                          "year": 2025,
+                          "engine": "1.6"
+                        }
+                        """)
+                .post("/api/v1/vehicles")
+                .then()
+                .statusCode(HttpStatus.SC_CREATED)
+                .extract()
+                .jsonPath()
+                .getInt("id");
+
+        String location = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                          "problem": "Motor não liga"
+                        }
+                        """)
+                .post("/api/v1/vehicles/%d/maintenances".formatted(vehicleId))
+                .then()
+                .statusCode(HttpStatus.SC_CREATED)
+                .header("Location", Matchers.containsString("/api/v1/vehicles/" + vehicleId + "/maintenances/"))
+                .extract()
+                .header("Location");
+
+        RestAssured.given()
+                .get(location)
+                .then()
+                .body("id", Matchers.equalTo(1));
     }
 
 }
