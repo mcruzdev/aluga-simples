@@ -53,6 +53,7 @@ public class VehicleResource {
     @Path("/{id}")
     public Response getByID(@PathParam("id") Long id) {
         Optional<Vehicle> vehicle = Vehicle.findByIdOptional(id);
+        Log.info("Recebendo request");
         if (vehicle.isPresent()) {
             return Response.ok(new VehicleResponse(vehicle.get())).build();
         } else {
