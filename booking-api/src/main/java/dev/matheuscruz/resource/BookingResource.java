@@ -1,14 +1,7 @@
 package dev.matheuscruz.resource;
 
 import dev.matheuscruz.model.Booking;
-import dev.matheuscruz.model.BookingStatus;
-import dev.matheuscruz.repository.BookingDAO;
 import dev.matheuscruz.service.BookingService;
-import jakarta.inject.Inject;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -30,11 +23,9 @@ import java.time.LocalDate;
 @Consumes(MediaType.APPLICATION_JSON)
 public class BookingResource {
 
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     public BookingResource(BookingService bookingService) {
-        // Quarkus injeta pra mim um BookingService
-        // eu não quero saber como ele vem, só quero usar isso aqui.
         this.bookingService = bookingService;
     }
 
@@ -46,7 +37,7 @@ public class BookingResource {
     }
 
     @POST
-    public Response create(@Valid BookingDTO dto) {
+    public Response create(@Valid BookingDTO dto) throws Exception {
 
         Booking booking = new Booking(
                 dto.vehicleId(),

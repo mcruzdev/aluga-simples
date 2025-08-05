@@ -1,8 +1,8 @@
 package dev.matheuscruz.service;
 
-import dev.matheuscruz.client.VehicleApiClient;
+import dev.matheuscruz.repository.VehicleRepository;
 import dev.matheuscruz.model.Booking;
-import dev.matheuscruz.repository.BookingDAO;
+import dev.matheuscruz.repository.BookingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,17 +12,15 @@ import java.util.concurrent.TimeoutException;
 
 class BookingServiceTest {
 
-
     @Test
     void naoDeveCriarUmAgendamentoQuandoNaoExistirUmVeiculo() {
 
-        BookingDAO bookingDAO = Mockito.mock(BookingDAO.class);
-        VehicleApiClient vehicleApiClient = Mockito.mock(VehicleApiClient.class);
+        BookingRepository bookingRepository = Mockito.mock(BookingRepository.class);
+        VehicleRepository vehicleRepository = Mockito.mock(VehicleRepository.class);
 
-        Mockito.when(vehicleApiClient.findVehicleById(1L)).thenReturn(null);
+        Mockito.when(vehicleRepository.findVehicleById(1L)).thenReturn(null);
 
-        BookingService bookingService = new BookingService(bookingDAO, vehicleApiClient);
-
+        BookingService bookingService = new BookingService(bookingRepository, vehicleRepository);
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
             bookingService.createBook(new Booking(
@@ -38,14 +36,14 @@ class BookingServiceTest {
     @Test
     void naoDeveCriarQuandoOStatusForDiferenteDeAvailable() {
 
-        BookingDAO bookingDAO = Mockito.mock(BookingDAO.class);
-        VehicleApiClient vehicleApiClient = Mockito.mock(VehicleApiClient.class);
+        BookingRepository bookingRepository = Mockito.mock(BookingRepository.class);
+        VehicleRepository vehicleRepository = Mockito.mock(VehicleRepository.class);
 
-        Mockito.when(vehicleApiClient.findVehicleById(1L)).thenReturn(new VehicleApiClient.Vehicle(
+        Mockito.when(vehicleRepository.findVehicleById(1L)).thenReturn(new VehicleRepository.Vehicle(
                 "RENTED"
         ));
 
-        BookingService bookingService = new BookingService(bookingDAO, vehicleApiClient);
+        BookingService bookingService = new BookingService(bookingRepository, vehicleRepository);
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
             bookingService.createBook(new Booking(
@@ -61,14 +59,14 @@ class BookingServiceTest {
     @Test
     void deveCriarUmAgendamentoQuandoTudoEstiverOk() {
 
-        BookingDAO bookingDAO = Mockito.mock(BookingDAO.class);
-        VehicleApiClient vehicleApiClient = Mockito.mock(VehicleApiClient.class);
+        BookingRepository bookingRepository = Mockito.mock(BookingRepository.class);
+        VehicleRepository vehicleRepository = Mockito.mock(VehicleRepository.class);
 
-        Mockito.when(vehicleApiClient.findVehicleById(Mockito.anyLong())).thenReturn(new VehicleApiClient.Vehicle(
+        Mockito.when(vehicleRepository.findVehicleById(Mockito.anyLong())).thenReturn(new VehicleRepository.Vehicle(
                 "AVAILABLE"
         ));
 
-        BookingService bookingService = new BookingService(bookingDAO, vehicleApiClient);
+        BookingService bookingService = new BookingService(bookingRepository, vehicleRepository);
 
         Assertions.assertDoesNotThrow(() -> {
             bookingService.createBook(new Booking(
@@ -83,13 +81,13 @@ class BookingServiceTest {
     @Test
     void deveTratarAFalhaNaComunicacoComOVehicleApiQuandoReceberTimeout() {
 
-        BookingDAO bookingDAO = Mockito.mock(BookingDAO.class);
-        VehicleApiClient vehicleApiClient = Mockito.mock(VehicleApiClient.class);
+        BookingRepository bookingRepository = Mockito.mock(BookingRepository.class);
+        VehicleRepository vehicleRepository = Mockito.mock(VehicleRepository.class);
 
-        Mockito.when(vehicleApiClient.findVehicleById(Mockito.anyLong()))
+        Mockito.when(vehicleRepository.findVehicleById(Mockito.anyLong()))
                 .thenThrow(new TimeoutException());
 
-        BookingService bookingService = new BookingService(bookingDAO, vehicleApiClient);
+        BookingService bookingService = new BookingService(bookingRepository, vehicleRepository);
 
         Assertions.assertDoesNotThrow(() -> {
             bookingService.createBook(new Booking(

@@ -1,0 +1,1 @@
+INSERT INTO vehicle (model, brand, vehicle_year, status, engine) VALUES ('Uno', 'Fiat', 2025, 'AVAILABLE', '1.0');

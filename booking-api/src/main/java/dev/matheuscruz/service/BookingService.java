@@ -1,42 +1,52 @@
 package dev.matheuscruz.service;
 
-import dev.matheuscruz.client.VehicleApiClient;
+import dev.matheuscruz.exception.BookingWithConflictException;
+import dev.matheuscruz.exception.VehicleNotAvailableException;
 import dev.matheuscruz.model.Booking;
-import dev.matheuscruz.repository.BookingDAO;
+import dev.matheuscruz.repository.BookingRepository;
+import dev.matheuscruz.repository.VehicleRepository;
+import dev.matheuscruz.resource.BookingResource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import java.util.Optional;
+
 @ApplicationScoped
 public class BookingService {
 
-    private BookingDAO bookingDAO;
-    private VehicleApiClient vehicleApiClient;
+    private final BookingRepository bookingRepository;
+    private final VehicleRepository vehicleRepository;
 
-    public BookingService(BookingDAO bookingDAO,
-                          @RestClient VehicleApiClient vehicleApiClient) {
-        this.bookingDAO = bookingDAO;
-        this.vehicleApiClient = vehicleApiClient;
+    public BookingService(BookingRepository bookingRepository,
+                          @RestClient VehicleRepository vehicleRepository) {
+        this.bookingRepository = bookingRepository;
+        this.vehicleRepository = vehicleRepository;
     }
 
     @Transactional
-    public void createBook(Booking booking) {
+    public Booking createBook(Booking booking) {
 
-        VehicleApiClient.Vehicle vehicle = vehicleApiClient.findVehicleById(booking.getVehicleId());
+        Optional<Booking> overlappingBooking = this.bookingRepository
+                .findOverlappingBooking(booking.getVehicleId(), booking.getStartDate(), booking.getEndDate());
 
-        if (vehicle == null) {
-            throw new IllegalStateException("Vehicle does not exist");
+        if (overlappingBooking.isPresent()) {
+            throw new BookingWithConflictException("Vehicle is already booked");
         }
+
+        VehicleRepository.Vehicle vehicle = vehicleRepository.findVehicleById(booking.getVehicleId());
 
         if (!vehicle.status().equals("AVAILABLE")) {
-            throw new IllegalStateException("Vehicle is not available");
+            throw new VehicleNotAvailableException("Vehicle is not available");
         }
 
-        this.bookingDAO.persist(booking);
+        this.bookingRepository.persist(booking);
+
+        return booking;
     }
 
     public Booking getBookById(Long id) {
-        return this.bookingDAO.findById(id, LockModeType.PESSIMISTIC_WRITE);
+        return this.bookingRepository.findById(id, LockModeType.PESSIMISTIC_WRITE);
     }
 }

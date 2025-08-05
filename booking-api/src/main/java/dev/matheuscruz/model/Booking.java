@@ -75,4 +75,16 @@ public class Booking {
     public BookingStatus getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", vehicleId=" + vehicleId +
+                ", customerName='" + customerName + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                '}';
+    }
 }

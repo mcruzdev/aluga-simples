@@ -22,6 +22,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Path("/api/v1/vehicles")
@@ -53,11 +54,14 @@ public class VehicleResource {
     @Path("/{id}")
     public Response getByID(@PathParam("id") Long id) {
         Optional<Vehicle> vehicle = Vehicle.findByIdOptional(id);
-        Log.info("Recebendo request");
         if (vehicle.isPresent()) {
+            Log.info("Vehicle found with id: " + id + ": " + vehicle.get());
             return Response.ok(new VehicleResponse(vehicle.get())).build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(Map.of("message", "Vehicle with ID not found"))
+                    .build();
         }
     }
 
