@@ -43,6 +43,7 @@ export class Cars {
   });
 
   seeDetails(car: CarModel): void {
+    console.log('Selected car:', car);
     this.carService.getCarById(car.id).subscribe(carDetails => {
       if (carDetails) {
         this.displayDialog.set(true);

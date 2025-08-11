@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { Rent } from './pages/rent/rent';
 import { Cars } from './pages/cars/cars';
 import { Admin } from './pages/admin/admin';
+import { canActivateAuthRole } from './auth-guard';
+import { Forbidden } from './pages/forbidden/forbidden';
 
 export const routes: Routes = [
   {
@@ -15,6 +17,12 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    component: Admin
+    component: Admin,
+    canActivate: [canActivateAuthRole],
+    data: { role: 'admin' }
+  },
+  {
+    path: 'forbidden',
+    component: Forbidden
   }
 ];

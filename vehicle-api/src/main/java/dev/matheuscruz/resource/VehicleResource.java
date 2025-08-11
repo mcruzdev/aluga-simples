@@ -10,6 +10,7 @@ import dev.matheuscruz.model.Maintenance;
 import dev.matheuscruz.model.Vehicle;
 import io.quarkus.logging.Log;
 import io.quarkus.panache.common.Parameters;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
